@@ -10,37 +10,36 @@
 #include <netdb.h>
 
 // Thread
-// #include <pthread.h>
+#include <pthread.h>
 
-// CPP libs
-#include <queue>
-#include <vector>
+#include "../helpers/macros.h"
 
 struct sockaddr_in addr;
-bool should_threads_terminate = false;
-std::vector<pthread_t> game_threads;
+pthread_t game_threads[100];
 
 // This function executes before app exits and does some cleanup
-void exiting () {
-  should_threads_terminate = true;
-  for (pthread_t thread : game_threads) {
-    // pthread_join(thread, NULL);
-  }
+// This force quits all threads to garantee memory optimization
+// on out of order exits
+void exiting() {
+  forEachInArray(pthread_t, game_threads,
+                 lambda(pthread_t, (pthread_t * game_thread), {
+                   pthread_cancel(*game_thread);
+                   return *game_thread;
+                 }));
 }
 
 // Game creation
-void start_game(struct sockaddr *conn1, struct sockaddr *conn2) {
-  printf("Starting game with %s and %s\n", conn1->sa_data, conn2->sa_data);
+void start_game(int conns[2]) {
+  printf("Starting game with %d and %d\n", conns[0], conns[1]);
 }
 
-int main () {
-  std::atexit(exiting);
+int main() {
 
   int server_socket;
   server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
   if (server_socket == -1) {
-    printf("\n[❌] Could not create server socket :(\n");
+    eprintf("Could not create server socket :(\n");
     return 1;
   }
 
@@ -50,43 +49,41 @@ int main () {
   memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
 
   if (bind(server_socket, (struct sockaddr *)&addr, sizeof(addr)) == -1) {
-    printf("\n[❌] Could not bind server socket :(\n");
+    eprintf("Could not bind server socket :(\n");
     return 1;
   }
 
   if (listen(server_socket, 1) == -1) {
-    printf("\n[❌] Server could not listen :(\n");
+    eprintf("Server could not listen :(\n");
     return 1;
   }
 
   printf("🚀 Tic tac toe server up and running @ localhost:9000\n");
 
   while (true) {
-    struct sockaddr *new_conn1, *new_conn2;
-    socklen_t *new_conn_len1, *new_conn_len2;
-
+    int conns[2];
     // Player connection
-    int conn_status = accept(server_socket, new_conn1, new_conn_len1);
+    conns[0] = accept(server_socket,0,0);
 
-    if (conn_status == -1) {
-      printf("\nSomeone tried to connect, but it went wrong...\n");
+    if (conns[0] == -1) {
+      eprintf("Someone tried to connect, but it went wrong...\n");
       return 1;
     }
 
-    printf("Client %s has just entered queue\n", new_conn1->sa_data);
+    printf("Client %d has just entered queue\n", conns[0]);
 
     // Oponent connection
-    conn_status = accept(server_socket, new_conn2, new_conn_len2);
+    conns[1] = accept(server_socket,0,0);
 
-    if (conn_status == -1) {
+    if (conns[1] == -1) {
       printf("Someone tried to connect, but it went wrong...\n");
       return 1;
     }
 
-    printf("Client %s has just entered queue\n", new_conn2->sa_data);
+    printf("Client %d has just entered queue\n", conns[1]);
 
     // Start game with last two connections
-    start_game(new_conn1, new_conn2);
+    start_game(conns);
   }
   return 0;
 }
