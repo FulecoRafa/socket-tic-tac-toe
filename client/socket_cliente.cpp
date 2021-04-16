@@ -7,14 +7,13 @@
 #include <pthread.h>
 
 int    meu_socket;
-pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;  
+pthread_mutex_t mutexsum = PTHREAD_MUTEX_INITIALIZER;
 struct sockaddr_in addr;
 void *sendmessage();
 void *listener();
-int done=1; 
+int done=1;
 
-int main()
-{
+int main() {
 
 meu_socket = socket(AF_INET,SOCK_STREAM,0);
 
@@ -32,7 +31,7 @@ memset(&addr.sin_zero,0,sizeof(addr.sin_zero));
 
 printf("Tentando se conectar ao servidor...\n");
 
-if(connect(meu_socket,(struct sockaddr*)&addr,sizeof(addr)) == -1)  
+if(connect(meu_socket,(struct sockaddr*)&addr,sizeof(addr)) == -1)
   {
   printf("Erro ao se conectar!\n");
   return 1;
@@ -58,7 +57,7 @@ void *sendmessage(){
 int  enviados;
 char mensagem[256];
 
-do{  
+do{
   printf("Cliente: ");
   fgets(mensagem,256,stdin);
   mensagem[strlen(mensagem)-1] = '\0';
@@ -68,7 +67,7 @@ do{
 
 	pthread_mutex_destroy(&mutexsum);
 	pthread_exit(NULL);
-	close(meu_socket);         
+	close(meu_socket);
 	done=0;
 }
 
@@ -81,5 +80,5 @@ do{
   printf("\n Servidor: %s\n",resposta);
 
 
-  }while(recebidos != -1); 
+  }while(recebidos != -1);
 }
