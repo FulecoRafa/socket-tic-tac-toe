@@ -16,3 +16,7 @@ build.server:
 
 build.client:
 	make -C client build
+
+clean:
+	make -C client clean
+	make -C server clean
