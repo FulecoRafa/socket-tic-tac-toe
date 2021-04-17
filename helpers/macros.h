@@ -22,9 +22,9 @@
 #define eprintf(format, ...) \
   fprintf(stderr, "\n[\033[31m✘\033[0m]\t" format, ##__VA_ARGS__)
 
-typedef enum {
+enum _bool {
   false,
   true
-} bool;
+} boolean;
 
 #endif
