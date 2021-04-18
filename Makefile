@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-CC=gcc
+CC=gcc-10
 C_FLAGS=-g -fsanitize=address
 D_LIBS=-lpthread
 
@@ -8,6 +8,7 @@ run.server:
 
 run.client:
 	make -C client run
+
 
 build: build.server build.client
 

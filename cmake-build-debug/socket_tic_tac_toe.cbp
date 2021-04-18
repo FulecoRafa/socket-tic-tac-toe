@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="socket_tic_tac_toe"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="socket_tic_tac_toe">
+				<Option output="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/socket_tic_tac_toe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/gsasouza/study/socket-tic-tac-toe/."/>
+					<Add directory="/Users/gsasouza/study/socket-tic-tac-toe/helpers"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 socket_tic_tac_toe"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="socket_tic_tac_toe/fast">
+				<Option output="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/socket_tic_tac_toe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/gsasouza/study/socket-tic-tac-toe/."/>
+					<Add directory="/Users/gsasouza/study/socket-tic-tac-toe/helpers"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 socket_tic_tac_toe/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/Makefile">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/README.md">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/client/Makefile">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/client/tictactoe_client.c">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/helpers/macros.h">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/Makefile">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/game.c">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/game.h">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/interface.c">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/interface.h">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/match.c">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/match.h">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/server/tictactoe_server.c">
+			<Option target="socket_tic_tac_toe"/>
+		</Unit>
+		<Unit filename="/Users/gsasouza/study/socket-tic-tac-toe/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
