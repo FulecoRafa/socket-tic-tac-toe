@@ -1,4 +1,4 @@
-FILES=${shell find . -name "*.c" -printf "%f "}
+FILES=${shell find . -name "*.c"}
 BINS=${shell find dist -name "*.o"}
 
 run:
