@@ -1,3 +1,0 @@
-/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/gsasouza/study/socket-tic-tac-toe/cmake-build-debug/CMakeFiles/socket_tic_tac_toe.dir

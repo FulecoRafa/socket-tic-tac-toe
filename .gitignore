@@ -33,3 +33,7 @@
 
 # Compiled folders
 dist/
+
+CMakeLists.txt
+.idea
+cmake-build-debug
