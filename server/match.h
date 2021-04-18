@@ -10,10 +10,11 @@
 #include <pthread.h>
 #include <stdlib.h>
 #include <string.h>
+#include "game.h"
 #include "../helpers/macros.h"
+#include "../helpers/events.h"
 
 _Noreturn void match_making (int server_socket, int max_players, pthread_t *game_threads, int *current_threads);
-//void create_match(int player_conn_1, int player_conn_2);
 
 typedef struct match {
   int players[2];
@@ -23,18 +24,13 @@ typedef struct match {
   int **board;
   int who_is_playing;
   bool is_running;
-} Match;
+} match_t;
 
-typedef struct event {
-  bool is_new;
-  char message[256];
-  int sender;
-} Event;
 
 typedef struct listener {
   int connection;
-  Event *event;
+  event_t *event;
   pthread_mutex_t *mutex;
-} Listener;
+} listener_t;
 
 #endif //SOCKET_TIC_TAC_TOE_MATCH_H

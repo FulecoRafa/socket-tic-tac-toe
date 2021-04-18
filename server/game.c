@@ -13,9 +13,12 @@ int **create_board() {
   return board;
 }
 
-void make_move(int *error, int **board, int i, int j, int value) {
-  if (board[i][j] != 0) *error = 1;
-  board[i][j] = value;
+void make_move(int *error, int **board, move_t move) {
+  if (board[move.pos_i][move.pos_j] != 0) {
+    *error = 1;
+    return;
+  }
+  board[move.pos_i][move.pos_j] = move.value;
 }
 
 int check_winner(int ** board) {
@@ -33,4 +36,14 @@ int check_winner(int ** board) {
     if (sum_row == -3 || sum_column == -3 || sum_diag == -3 || sum_diag_inv == -3) return -1;
   }
   return 0;
+}
+
+int check_draw(int **board) {
+  int sum = 0;
+  for (int i = 0; i < SIZE; i++) {
+    for (int j = 0; j < SIZE; j++) {
+      if (board[i][j] ==0) sum++;
+    }
+  }
+  return sum == (SIZE * SIZE);
 }
