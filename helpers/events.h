@@ -5,6 +5,8 @@
 #ifndef SOCKET_TIC_TAC_TOE_EVENTS_H
 #define SOCKET_TIC_TAC_TOE_EVENTS_H
 
+#define PAYLOAD_SIZE 4
+
 typedef enum events {
   finding_match = 'F',
   match_found = 'M',
