@@ -45,5 +45,5 @@ int check_draw(int **board) {
       if (board[i][j] ==0) sum++;
     }
   }
-  return sum == (SIZE * SIZE);
+  return sum == 0;
 }

@@ -99,6 +99,9 @@ void exec_game(client_match_t *match, event_t *event) {
     case match_found:
       printf("Match found! \n");
       return;
+    case invalid_move:
+      printf("Invalid movement, please play again \n");
+      return handle_turn(match);
     case your_turn:
       return handle_turn(match);
     case wait_turn:
