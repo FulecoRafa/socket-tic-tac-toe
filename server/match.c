@@ -4,12 +4,12 @@
 
 #include "match.h"
 
-char *encode_message(events_enum action) {
-  char * message = (char *) malloc(5 * sizeof(char));
+char *encode_message(events_enum action, move_t move) {
+  char *message = (char *) malloc(5 * sizeof(char));
   message[0] = action;
-  message[1] = '0';
-  message[2] = '0';
-  message[3] = '0';
+  message[1] = move.pos_i + '0';
+  message[2] = move.pos_j + '0';
+  message[3] = move.value == -1 ? '2' : '1'; // its easier to parse positive numbers
   message[4] = '\0';
   return message;
 }
@@ -20,7 +20,7 @@ int get_move_value_by_sender(match_t *match, int sender) {
 }
 
 
-move_t decode_message(match_t *match, event_t * event) {
+move_t decode_message(match_t *match, event_t *event) {
   move_t move;
   move.pos_i = event->message[1] - '0';
   move.pos_j = event->message[2] - '0';
@@ -52,7 +52,7 @@ void *listen_client(void *args) {
 }
 
 void *send_message(int client_connection, char *message) {
-  printf("%s\n", message);
+  delay(50); // @TODO remove this after fix message length on recv
   send(client_connection, message, strlen(message), 0);
   return NULL;
 }
@@ -65,6 +65,22 @@ listener_t *create_listener(int connection, event_t *event, pthread_mutex_t *mut
   return new_listener;
 }
 
+move_t create_empty_move() {
+  move_t move;
+  move.pos_i = 0;
+  move.pos_j = 0;
+  move.value = 0;
+  return move;
+}
+
+move_t create_move_from_value(int value) {
+  move_t move;
+  move.pos_i = 0;
+  move.pos_j = 0;
+  move.value = value;
+  printf("%d \n", value);
+  return move;
+}
 
 int get_opposite_player_by_sender(match_t *match, int sender) {
   if (match->players[0] == sender) return match->players[1];
@@ -73,27 +89,30 @@ int get_opposite_player_by_sender(match_t *match, int sender) {
 
 void handle_play(match_t *match, event_t *event) {
   int error = 0;
-  make_move(&error, match->board, decode_message(match, event));
+  move_t decoded_message = decode_message(match, event);
+  make_move(&error, match->board, decoded_message);
   if (error) {
-    send_message(event->sender, encode_message(invalid_move));
+    send_message(event->sender, encode_message(invalid_move, create_empty_move()));
     return;
   }
-  send_message(match->players[0], encode_message(update_board)); // @TODO pass update data
-  send_message(match->players[1], encode_message(update_board));
+  send_message(match->players[0], encode_message(update_board, decoded_message)); // @TODO pass update data
+  send_message(match->players[1], encode_message(update_board, decoded_message));
   int possible_winner = check_winner(match->board);
   if (possible_winner) {
     int winner = possible_winner == -1 ? 0 : 1;
-    send_message(match->players[winner], encode_message(win));
-    send_message(get_opposite_player_by_sender(match, match->players[winner]), encode_message(lose));
+    send_message(match->players[winner], encode_message(win, create_empty_move()));
+    send_message(get_opposite_player_by_sender(match, match->players[winner]),
+                 encode_message(lose, create_empty_move()));
     return;
   }
   if (check_draw(match->board)) {
-    send_message(match->players[0], encode_message(draw));
-    send_message(match->players[1], encode_message(draw));
+    send_message(match->players[0], encode_message(draw, create_empty_move()));
+    send_message(match->players[1], encode_message(draw, create_empty_move()));
     return;
   }
-  send_message(event->sender, encode_message(wait_turn));
-  send_message(get_opposite_player_by_sender(match, event->sender), encode_message(your_turn));
+  send_message(event->sender, encode_message(wait_turn, create_empty_move()));
+  send_message(get_opposite_player_by_sender(match, event->sender),
+               encode_message(your_turn, create_move_from_value(get_move_value_by_sender(match, event->sender))));
 }
 
 void exec_game(match_t *match, event_t *event) {
@@ -115,11 +134,11 @@ void *start_game(void *args) {
   printf("Starting game with %d and %d\n", match->players[0], match->players[1]);
   pthread_create(&match->listeners[0], NULL, listen_client, (void *) player_1_listener);
   pthread_create(&match->listeners[1], NULL, listen_client, (void *) player_2_listener);
-  send_message(match->players[0], encode_message(match_found));
-  send_message(match->players[1], encode_message(match_found));
-  delay(100);
-  send_message(match->players[0], encode_message(wait_turn));
-  send_message(match->players[1], encode_message(your_turn));
+  send_message(match->players[0], encode_message(match_found, create_empty_move()));
+  send_message(match->players[1], encode_message(match_found, create_empty_move()));
+  send_message(match->players[0], encode_message(wait_turn, create_empty_move()));
+  send_message(match->players[1],
+               encode_message(your_turn, create_move_from_value(get_move_value_by_sender(match, match->players[0]))));
   while (match->is_running) {
     if (event.is_new) {
       printf("Sender: %d, Message: %s \n", event.sender, event.message);
@@ -156,7 +175,7 @@ _Noreturn void match_making(int server_socket, int max_players, pthread_t *game_
     conns[players_connected] = accepted_connection;
     printf("Client %d has just entered queue\n", conns[players_connected]);
     players_connected++;
-    send_message(accepted_connection, encode_message(finding_match));
+    send_message(accepted_connection, encode_message(finding_match, create_empty_move()));
 
     if (players_connected % 2 == 0) {
       match_t *match = create_match(conns[players_connected - 1], conns[players_connected - 2]);

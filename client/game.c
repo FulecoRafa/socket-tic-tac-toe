@@ -11,7 +11,7 @@ int **create_board() {
   return board;
 }
 
-void make_move(int *error, int **board, int i, int j, int value) {
-  if (board[i][j] != 0) *error = 1;
-  board[i][j] = value;
+void make_move(int *error, int **board, move_t move) {
+  if (board[move.pos_i][move.pos_j] != 0) *error = 1;
+  board[move.pos_i][move.pos_j] = move.value;
 }
