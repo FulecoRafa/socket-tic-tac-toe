@@ -1,7 +1,7 @@
 .EXPORT_ALL_VARIABLES:
-CC=gcc-10
+CC=gcc
 C_FLAGS=-g -fsanitize=address
-D_LIBS=-lpthread
+D_LIBS=-lpthread -lcurses
 
 run.server:
 	make -C server run

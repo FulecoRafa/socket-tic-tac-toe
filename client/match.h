@@ -17,6 +17,11 @@ typedef struct client_match {
   int connection;
   bool can_play;
   bool is_running;
+  struct {
+    bool valid;
+    char row;
+    char col;
+  } play_intent;
   pthread_mutex_t *mutex;
 } client_match_t;
 
@@ -26,7 +31,7 @@ typedef struct client_listener {
   pthread_mutex_t *mutex;
 } client_listener_t;
 
-_Noreturn void start_game (int connection);
-
+//_Noreturn void start_game (int connection);
+void start_game (int connection);
 
 #endif //SOCKET_TIC_TAC_TOE_MATCH_H

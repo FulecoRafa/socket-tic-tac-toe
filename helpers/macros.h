@@ -2,6 +2,7 @@
 #define _HELPER_MACROS_TICTACTOE_
 
 #include <stdio.h>
+#include <stdbool.h>
 
 // Macros for easier programing
 #define lambda(l_ret_type, l_arguments, l_body)        \
@@ -22,9 +23,14 @@
 #define eprintf(format, ...) \
   fprintf(stderr, "\n[\033[31m✘\033[0m]\t" format, ##__VA_ARGS__)
 
+/*
 enum _bool {
   false,
   true
 } boolean;
+*/
+
+#define MAX(x,y) x>y?x:y
+#define MIN(x,y) x>y?y:x
 
 #endif

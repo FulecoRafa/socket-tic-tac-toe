@@ -5,7 +5,7 @@ run:
 	./dist/server.out
 
 build: dist $(FILES)
-	${CC} ${C_FLAGS} ${BINS} ${D_LIBS} -o dist/server.out
+	${CC} -g ${C_FLAGS} ${BINS} ${D_LIBS} -o dist/server.out
 	@echo "Server build complete"
 
 ${FILES}: %.c: %

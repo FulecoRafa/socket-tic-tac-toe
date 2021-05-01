@@ -2,6 +2,8 @@
 // Created by Gabriel Souza on 18/04/21.
 //
 
+#include <ncurses.h>
+//#include "ui.h"
 #include "game.h"
 
 int **create_board() {

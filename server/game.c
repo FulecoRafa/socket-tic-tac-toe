@@ -14,6 +14,7 @@ int **create_board() {
 }
 
 void make_move(int *error, int **board, move_t move) {
+  printf("Trying to put move: %d %d\n", move.pos_i, move.pos_j);
   if (board[move.pos_i][move.pos_j] != 0) {
     *error = 1;
     return;

@@ -42,10 +42,10 @@ int main (void) {
     case 'e':
       draw_msg("This is an error");
       break;
-
-    default:
+    case 'q':
       ui_close();
       return 0;
+    default:
       break;
     }
   }

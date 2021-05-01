@@ -7,19 +7,21 @@
 
 #define PAYLOAD_SIZE 4
 
+#include "macros.h"
+
 typedef enum events {
   finding_match = 'F',
   match_found = 'M',
   wait_turn = 'W',
   your_turn = 'Y',
   play = 'P',
-  win = 'I',
+  win = 'J',
   lose = 'L',
   draw = 'D',
   quit = 'Q',
   restart = 'R',
   invalid_move = 'V',
-  update_board = 'U'
+  update_board = 'U',
 } events_enum;
 
 typedef struct event {

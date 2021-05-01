@@ -11,6 +11,10 @@ char *encode_message(events_enum action, move_t move) {
   message[2] = move.pos_j + '0';
   message[3] = move.value == -1 ? '2' : '1'; // its easier to parse positive numbers
   message[4] = '\0';
+
+  if (action == update_board) {
+    printf("Encoding board update %s\n", message);
+  }
   return message;
 }
 
@@ -18,7 +22,6 @@ int get_move_value_by_sender(match_t *match, int sender) {
   if (match->players[0] == sender) return -1;
   return 1;
 }
-
 
 move_t decode_message(match_t *match, event_t *event) {
   move_t move;

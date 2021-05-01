@@ -32,7 +32,7 @@ void exiting() {
                  }));
 }
 
-int main() {
+int main(int argc, char *argv[]) {
 
   int server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -42,7 +42,15 @@ int main() {
   }
 
   addr.sin_family = AF_INET;
-  addr.sin_port = htons(6060);
+
+  if (argc < 2)
+  {
+    addr.sin_port = htons(6060);
+  }
+  else
+  {
+    addr.sin_port = htons(atoi(argv[1]));
+  }
   addr.sin_addr.s_addr = INADDR_ANY;
   memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
 
