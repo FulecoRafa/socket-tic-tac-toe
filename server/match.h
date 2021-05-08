@@ -20,8 +20,8 @@ typedef struct match {
   int players[2];
   pthread_t listeners[2];
   pthread_t emitters[2];
-  pthread_mutex_t *mutex;
-  int **board;
+  pthread_mutex_t mutex;
+  char board[3][3];
   int who_is_playing;
   bool is_running;
 } match_t;

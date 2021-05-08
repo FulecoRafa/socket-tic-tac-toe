@@ -18,13 +18,14 @@
 #define MAX_PLAYERS 10
 
 struct sockaddr_in addr;
-pthread_t game_threads[100];
+pthread_t game_threads[MAX_PLAYERS/2];
 int thread_count = 0;
 
 // This function executes before app exits and does some cleanup
 // This force quits all threads to garantee memory optimization
 // on out of order exits
-void exiting() {
+void exiting () {
+  printf("Exiting...\n");
   forEachInArray(pthread_t, game_threads,
                  lambda(pthread_t, (pthread_t * game_thread), {
                    pthread_cancel(*game_thread);
@@ -32,7 +33,7 @@ void exiting() {
                  }));
 }
 
-int main(int argc, char *argv[]) {
+int main (int argc, char *argv[]) {
 
   int server_socket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -43,14 +44,7 @@ int main(int argc, char *argv[]) {
 
   addr.sin_family = AF_INET;
 
-  if (argc < 2)
-  {
-    addr.sin_port = htons(6060);
-  }
-  else
-  {
-    addr.sin_port = htons(atoi(argv[1]));
-  }
+  addr.sin_port = htons(6060);
   addr.sin_addr.s_addr = INADDR_ANY;
   memset(&addr.sin_zero, 0, sizeof(addr.sin_zero));
 

@@ -1,7 +1,3 @@
-//
-// Created by Gabriel Souza on 18/04/21.
-//
-
 #ifndef SOCKET_TIC_TAC_TOE_EVENTS_H
 #define SOCKET_TIC_TAC_TOE_EVENTS_H
 
@@ -9,6 +5,9 @@
 
 #include "macros.h"
 
+/*
+ * Game events for flow control
+ * */
 typedef enum events {
   finding_match = 'F',
   match_found = 'M',
