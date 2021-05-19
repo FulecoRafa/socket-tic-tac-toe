@@ -13,7 +13,13 @@ int **create_board() {
   return board;
 }
 
+void destroy_board(int** board){
+    for (int i = 0; i < SIZE; i++) free(board[i]);
+    free(board);
+}
+
 void make_move(int *error, int **board, move_t move) {
-  if (board[move.pos_i][move.pos_j] != 0) *error = 1;
+  if (board[move.pos_i][move.pos_j] != 0)
+      *error = 1;
   board[move.pos_i][move.pos_j] = move.value;
 }

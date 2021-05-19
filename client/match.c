@@ -5,6 +5,7 @@
 #include "ui.h"
 #include <ncurses.h>
 #include "match.h"
+#include "../helpers/message.h"
 
 //int has_message = 0;
 
@@ -46,7 +47,6 @@ void *send_message(int client_connection, char *message) {
   int bytes_sent = send(client_connection, message, strlen(message), 0);
   sprintf(msg_buf, "Sent %d %s\n", bytes_sent, message);
   draw_msg(msg_buf);
-  free(message);
   return NULL;
 }
 
@@ -79,13 +79,13 @@ void print_debug_board(int **board) {
   printf("\n");
 }
 
-char *encode_message(events_enum action, char pos_i, char pos_j) {
-  char *message = (char *) malloc(5 * sizeof(char));
-  message[0] = action;
-  message[1] = '0' + pos_i;
-  message[2] = '0' + pos_j;
-  message[3] = '0';
-  message[4] = '\0';
+message_t encode_message(events_enum action, char pos_i, char pos_j) {
+  message_t message;
+  message.content[0] = action;
+  message.content[1] = '0' + pos_i;
+  message.content[2] = '0' + pos_j;
+  message.content[3] = '0';
+  message.content[4] = '\0';
   return message;
 }
 
@@ -171,6 +171,7 @@ void exec_game(client_match_t *match, event_t *event) {
         break;
       case 'q':
         ui_close();
+        //#dealloc
         match->is_running = false; //Exitting.
       default:
         break;
@@ -191,7 +192,7 @@ void exec_game(client_match_t *match, event_t *event) {
           encode_message(
             play, //is the event type.
             match->play_intent.row,
-            match->play_intent.col)
+            match->play_intent.col).content
           );
       }
     }
@@ -248,6 +249,17 @@ void exec_game(client_match_t *match, event_t *event) {
   }
 }
 
+void destroy_client_match(client_match_t *match){
+    free(match->mutex);
+    destroy_board(match->board);
+    free(match);
+}
+
+void end_game(client_match_t *match, client_listener_t *client_listener){
+    destroy_client_match(match);
+    free(client_listener);
+}
+
 void start_game(int connection) {
   event_t event;
   pthread_t listener_thread;
@@ -264,6 +276,7 @@ void start_game(int connection) {
   exec_game(match, &event);
 
   // TODO: join threads
+  end_game(match, client_listener);
   // TODO: clean memory
 
 }

@@ -6,7 +6,6 @@
 #include "../helpers/message.h"
 
 message_t encode_message(events_enum action, move_t move) {
-  // char *message = (char *) malloc(5 * sizeof(char));
   message_t message;
   message.content[0] = action;
   message.content[1] = move.pos_i + '0';
@@ -122,6 +121,7 @@ void *start_game(void *args) {
 
   // Open message listeners on threads
   listener_t player_listeners[2];
+  //
   player_listeners[0] = create_listener(match->players[1], &event, &match->mutex);
   player_listeners[1] = create_listener(match->players[1], &event, &match->mutex);
   printf("Starting game with %d and %d\n", match->players[0], match->players[1]);
