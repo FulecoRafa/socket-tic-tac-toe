@@ -115,6 +115,11 @@ void exec_game(match_t *match, event_t *event) {
     handle_play(match, event);
 }
 
+void end_game(match_t *match){
+    destroy_board(match->board);
+    free(match);
+}
+
 void *start_game(void *args) {
   match_t *match = (match_t *) args;
   event_t event;
@@ -123,7 +128,7 @@ void *start_game(void *args) {
   listener_t player_listeners[2];
   //
   player_listeners[0] = create_listener(match->players[1], &event, &match->mutex);
-  player_listeners[1] = create_listener(match->players[1], &event, &match->mutex);
+  player_listeners[1] = create_listener(match->players[0], &event, &match->mutex);
   printf("Starting game with %d and %d\n", match->players[0], match->players[1]);
   pthread_create(&match->listeners[0], NULL, listen_client, (void *) &player_listeners[0]);
   pthread_create(&match->listeners[1], NULL, listen_client, (void *) &player_listeners[1]);
@@ -152,13 +157,15 @@ void *start_game(void *args) {
       pthread_mutex_unlock(&match->mutex);
     }
   }
-  free(match); // Since match is allocated to disconnect from main thread
+
+  end_game(match);
 }
 
 match_t *create_match(int player1, int player2) {
   match_t *new_match = (match_t *) calloc(1, sizeof(match_t));
   new_match->players[0] = player1;
   new_match->players[1] = player2;
+  new_match->board = create_board();
   new_match->is_running = true;
   new_match->who_is_playing = -1;
   pthread_mutex_init(&new_match->mutex, NULL);

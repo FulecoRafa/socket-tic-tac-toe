@@ -21,7 +21,7 @@ typedef struct match {
   pthread_t listeners[2];
   pthread_t emitters[2];
   pthread_mutex_t mutex;
-  char board[3][3];
+  int **board;
   int who_is_playing;
   bool is_running;
 } match_t;

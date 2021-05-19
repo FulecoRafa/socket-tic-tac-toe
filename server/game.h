@@ -13,7 +13,8 @@ typedef struct move {
 } move_t;
 
 int **create_board();
-void make_move(int* error, int **board, move_t move);
+void destroy_board(int **board);
+void make_move(int *error, int **board, move_t move);
 int check_winner(int **board);
 int check_draw(int **board);
 
