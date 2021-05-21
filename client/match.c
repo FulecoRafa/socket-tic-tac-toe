@@ -170,9 +170,15 @@ void exec_game(client_match_t *match, event_t *event) {
         draw_msg("This is an error");
         break;
       case 'q':
-        ui_close();
-        //#dealloc
         match->is_running = false; //Exitting.
+        draw_msg("Exiting...");
+        send_message(
+          match->connection,
+          encode_message(
+            quit, //is the event type.
+            0,
+            0).content
+          );
       default:
         break;
       }
@@ -207,7 +213,8 @@ void exec_game(client_match_t *match, event_t *event) {
           //printf("UPDATING BOARD");
           handle_update_board(match, event);
       }
-
+    
+      draw_msg("Match found!");
       switch (action) {
         case update_board:
           break;
@@ -237,16 +244,19 @@ void exec_game(client_match_t *match, event_t *event) {
         case draw:
           draw_msg("Draw");
           break;
-
+        case quit:
+          draw_msg("Opponent left. Closing the game...");
+          match->is_running = false; //Exitting.
+          break;
         default:
           break;
       }
       
       event->is_new = false;
-      //has_message = 0;
       pthread_mutex_unlock(match->mutex);
     }
   }
+  
 }
 
 void destroy_client_match(client_match_t *match){
@@ -257,6 +267,7 @@ void destroy_client_match(client_match_t *match){
 
 void end_game(client_match_t *match, client_listener_t *client_listener){
     destroy_client_match(match);
+    ui_close();
     free(client_listener);
 }
 

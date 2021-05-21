@@ -8,6 +8,7 @@
 #include <pthread.h>
 #include <sys/socket.h>
 #include <string.h>
+#include<unistd.h>
 #include "../helpers/macros.h"
 #include "../helpers/events.h"
 #include "game.h"

@@ -110,15 +110,33 @@ void handle_play(match_t *match, event_t *event) {
                encode_message(your_turn, create_move_from_value(get_move_value_by_sender(match, event->sender))));
 }
 
-void exec_game(match_t *match, event_t *event) {
-  if (event->message[0] == play)
-    handle_play(match, event);
-}
 
 void end_game(match_t *match){
     destroy_board(match->board);
     free(match);
+    
+    // close connections between players and server
+    close(match->players[0]);
+    close(match->players[1]);
+    
+    //cancel match threads
+    pthread_cancel(match->listeners[0]);
+    pthread_cancel(match->listeners[1]);
 }
+
+void exec_game(match_t *match, event_t *event) {
+  if (event->message[0] == play){
+    handle_play(match, event);
+  }
+  else if(event->message[0] == quit){
+      printf("Match %p closing...", match);
+      fflush(stdout);
+      move_t decoded_message = decode_message(match, event);
+      send_message(get_opposite_player_by_sender(match, event->sender), encode_message(quit, decoded_message ));
+      end_game(match);
+  }
+}
+
 
 void *start_game(void *args) {
   match_t *match = (match_t *) args;
