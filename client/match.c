@@ -33,7 +33,7 @@ void *listener(void *args) { // Listener thread function for client.
         strcpy(client_listener->event->message, message);
         //has_message = 1;
         client_listener->event->is_new = true;
-        if (client_listener->event->message[0] == 'U') fprintf(stdout, "Listener: update_board >%s<[%d]\n", client_listener->event->message, client_listener->event->is_new);
+        // if (client_listener->event->message[0] == 'U') fprintf(stdout, "Listener: update_board >%s<[%d]\n", client_listener->event->message, client_listener->event->is_new);
       }
     }
     
