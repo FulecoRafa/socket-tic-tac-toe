@@ -132,8 +132,11 @@ void exec_game(match_t *match, event_t *event) {
   else if(event->message[0] == quit){
       printf("Match %p closing...", match);
       fflush(stdout);
+      
+      //send message to opposite player indicating that its oponnent left the game
       move_t decoded_message = decode_message(match, event);
       send_message(get_opposite_player_by_sender(match, event->sender), encode_message(quit, decoded_message ));
+      
       end_game(match);
   }
 }

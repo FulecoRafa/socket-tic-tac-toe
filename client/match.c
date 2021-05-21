@@ -262,6 +262,7 @@ void exec_game(client_match_t *match, event_t *event) {
 void destroy_client_match(client_match_t *match){
     free(match->mutex);
     destroy_board(match->board);
+    close(match->connection);
     free(match);
 }
 
