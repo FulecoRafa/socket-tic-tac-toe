@@ -113,7 +113,6 @@ void handle_play(match_t *match, event_t *event) {
 
 void end_game(match_t *match){
     destroy_board(match->board);
-    free(match);
     
     // close connections between players and server
     close(match->players[0]);
@@ -122,6 +121,8 @@ void end_game(match_t *match){
     //cancel match threads
     pthread_cancel(match->listeners[0]);
     pthread_cancel(match->listeners[1]);
+
+    free(match);
 }
 
 void exec_game(match_t *match, event_t *event) {
