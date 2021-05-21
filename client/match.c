@@ -286,6 +286,6 @@ void start_game(int connection) {
   ui_init();
   exec_game(match, &event);
 
-  //TODO join threads
+  pthread_cancel(listener_thread);
   end_game(match, client_listener);
 }
