@@ -1,25 +1,19 @@
-//
-// Created by Gabriel Souza on 18/04/21.
-//
 
 #include "ui.h"
 #include <ncurses.h>
 #include "match.h"
 #include "../helpers/message.h"
 
-//int has_message = 0;
-
 void delay(int time_in_millis) {
   clock_t start_time = clock();
   while (clock() < start_time + time_in_millis);
 }
 
-void *listener(void *args) { // Listener thread function for client.
+void *listener(void *args) { 
   client_listener_t *client_listener = (client_listener_t *) args;
   int size;
   char message[5];
   
-  //char msg_buf[64];
   do {
     pthread_mutex_lock(client_listener->mutex);
     
@@ -27,13 +21,8 @@ void *listener(void *args) { // Listener thread function for client.
     size = recv((int) client_listener->connection, message, 5, 0);
     message[size] = '\0';
       if (size > 0) {
-        //printf("Received: %d %s\n", size, message);
-        //fprintf(stderr, "Received: [%d][%s]\n", size, message);
-        //while (has_message);
         strcpy(client_listener->event->message, message);
-        //has_message = 1;
         client_listener->event->is_new = true;
-        // if (client_listener->event->message[0] == 'U') fprintf(stdout, "Listener: update_board >%s<[%d]\n", client_listener->event->message, client_listener->event->is_new);
       }
     }
     
@@ -42,12 +31,11 @@ void *listener(void *args) { // Listener thread function for client.
   return NULL;
 }
 
-void *send_message(int client_connection, char *message) {
-  char msg_buf[64];
+bool send_message(int client_connection, char *message) {
   int bytes_sent = send(client_connection, message, strlen(message), 0);
-  sprintf(msg_buf, "Sent %d %s\n", bytes_sent, message);
-  draw_msg(msg_buf);
-  return NULL;
+  bool error = bytes_sent == -1;
+  
+  return error;
 }
 
 client_match_t *create_client_match(int connection) {
@@ -97,27 +85,9 @@ move_t decode_message(event_t *event) {
   return move;
 }
 
-void handle_turn(client_match_t *match) {
-  /*
-  char pos_i, pos_j;
-  
-  char msg_buf[64];
-  sprintf(msg_buf, "It's your turn!");
-  draw_msg(msg_buf);*/
-
-  //print_debug_board(match->board);
-  //scanf("%c %c", &pos_i, &pos_j);
-  //fflush(stdin);
-  /*
-  char pos_i = match->play_intent.row;
-  char pos_j = match->play_intent.col;
-                                                //Play is the event.
-  send_message(match->connection, encode_message(play, pos_i, pos_j));*/
-}
 
 void handle_update_board(client_match_t *match, event_t *event) {
   move_t rec_move = decode_message(event);
-  //printf("\n\nMoving %d on %d %d\n", rec_move.value, rec_move.pos_i, rec_move.pos_j);
   int error = 0;
   make_move(&error, match->board, rec_move);
 }
@@ -134,11 +104,6 @@ void exec_game(client_match_t *match, event_t *event) {
   int cursor[2] = { 1, 1 }; //Position 0 is for row, 1 is for column.
       
   while (match->is_running) { //Game loop.
-  /*  if (event.is_new) {
-      pthread_mutex_lock(match->mutex);
-      exec_game(match, &event);
-      pthread_mutex_unlock(match->mutex);
-    }*/
 
     draw_board(match->board, cursor);
 
@@ -182,9 +147,7 @@ void exec_game(client_match_t *match, event_t *event) {
       default:
         break;
       }
-    } /*else {
-      fprintf(stderr, "Curses: No input\n");
-    }*/
+    } 
 
     if (match->play_intent.valid) { //If player sent a new move.
       match->play_intent.valid = false;
@@ -193,13 +156,19 @@ void exec_game(client_match_t *match, event_t *event) {
         draw_msg("You played");
         
         // Handle play.
-        send_message(
+        bool error = send_message(
           match->connection,
           encode_message(
             play, //is the event type.
             match->play_intent.row,
             match->play_intent.col).content
           );
+
+        if(error){
+            draw_msg("Could not connect to server. Press any button to quit.");
+            ui_pause(5000);
+            match->is_running = false;
+        }  
       }
     }
     
@@ -207,7 +176,7 @@ void exec_game(client_match_t *match, event_t *event) {
       pthread_mutex_lock(match->mutex); //Mutex so the listener thread doesn't overwrite event.
   
       events_enum action = event->message[0];
-      //fprintf(stderr, ">>>Message is %s >>%d<<\n", event->message, action);
+      
       if (event->message[0] == 'U')
       {
           //printf("UPDATING BOARD");
@@ -236,16 +205,23 @@ void exec_game(client_match_t *match, event_t *event) {
           draw_msg("Wait enemy turn");
           break;
         case win:
-          draw_msg("You won!");
+          draw_msg("You won! Press any button to quit.");
+          ui_pause(5000);
+          match->is_running = false; //Exitting.
           break;
         case lose:
-          draw_msg("You lose");
+          draw_msg("You lose! Press any button to quit.");
+          ui_pause(5000);
+          match->is_running = false; //Exitting.
           break;
         case draw:
-          draw_msg("Draw");
+          draw_msg("Draw! Press any button to quit.");
+          ui_pause(5000);
+          match->is_running = false; //Exitting.
           break;
         case quit:
-          draw_msg("Opponent left. Closing the game...");
+          draw_msg("Opponent left. Press any button to quit ...");
+          ui_pause(5000);
           match->is_running = false; //Exitting.
           break;
         default:

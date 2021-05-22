@@ -130,8 +130,7 @@ void exec_game(match_t *match, event_t *event) {
     handle_play(match, event);
   }
   else if(event->message[0] == quit){
-      printf("Match %p closing...", match);
-      fflush(stdout);
+      printf("Match %p closing...\n", match);      
       
       //send message to opposite player indicating that its oponnent left the game
       move_t decoded_message = decode_message(match, event);
@@ -152,8 +151,8 @@ void *start_game(void *args) {
   player_listeners[0] = create_listener(match->players[1], &event, &match->mutex);
   player_listeners[1] = create_listener(match->players[0], &event, &match->mutex);
   printf("Starting game with %d and %d\n", match->players[0], match->players[1]);
-  pthread_create(&match->listeners[0], NULL, listen_client, (void *) &player_listeners[0]);
-  pthread_create(&match->listeners[1], NULL, listen_client, (void *) &player_listeners[1]);
+  pthread_create(&match->listeners[0], NULL, (void *) listen_client, (void *) &player_listeners[0]);
+  pthread_create(&match->listeners[1], NULL, (void *) listen_client, (void *) &player_listeners[1]);
 
   // Warn client that match was found and start game
   send_message(match->players[0], encode_message(match_found, create_empty_move()));

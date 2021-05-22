@@ -2,6 +2,8 @@
     "files.associations": {
         "ncurses.h": "c",
         "game.h": "c",
-        "match.h": "c"
+        "match.h": "c",
+        "macros.h": "c",
+        "socket.h": "c"
     }
 }

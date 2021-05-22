@@ -23,6 +23,11 @@ void ui_close() {
   endwin();
 }
 
+void ui_pause(int time){
+    timeout(time);
+    getch();
+}
+
 void draw_box(int x, int y, int c) {
     //char buf[10];
     //sprintf(buf, "%d", c);

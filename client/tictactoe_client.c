@@ -8,6 +8,10 @@
 #include "../helpers/macros.h"
 #include "match.h"
 
+void exiting () {
+  printf("Exiting...\n");
+}
+
 
 int main() {
 

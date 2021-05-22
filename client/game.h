@@ -6,6 +6,7 @@
 #define SOCKET_TIC_TAC_TOE_GAME_H
 #define SIZE 3
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct move {
   int pos_i;
