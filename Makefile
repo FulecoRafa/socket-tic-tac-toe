@@ -18,6 +18,9 @@ build.server:
 build.client:
 	make -C client build
 
+zip: clean
+	zip socket-tic-tac-toe.zip -r . -x ".git/*" ".vscode/*" .gitignore "*/dist/*"
+
 clean:
 	make -C client clean
 	make -C server clean
