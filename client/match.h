@@ -1,7 +1,3 @@
-//
-// Created by Gabriel Souza on 18/04/21.
-//
-
 #ifndef SOCKET_TIC_TAC_TOE_MATCH_H
 #define SOCKET_TIC_TAC_TOE_MATCH_H
 
@@ -32,7 +28,6 @@ typedef struct client_listener {
   pthread_mutex_t *mutex;
 } client_listener_t;
 
-//_Noreturn void start_game (int connection);
 void start_game (int connection);
 
 #endif //SOCKET_TIC_TAC_TOE_MATCH_H

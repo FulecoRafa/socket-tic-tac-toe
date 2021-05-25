@@ -21,27 +21,26 @@ struct sockaddr_in addr;
 pthread_t game_threads[MAX_PLAYERS/2];
 int thread_count = 0;
 
-// This function executes before app exits and does some cleanup
-// This force quits all threads to garantee memory optimization
-// on out of order exits
+/* This function executes before app exits and does some cleanup
+ * This force quits all threads to garantee memory optimization
+ * on out of order exits */
 void exiting () {
   printf("Exiting...\n");
-  forEachInArray(pthread_t, game_threads,
-                 lambda(pthread_t, (pthread_t * game_thread), {
-                   pthread_cancel(*game_thread);
-                   return *game_thread;
-                 }));
+  for (int i = 0; i < (sizeof(game_threads)/sizeof(game_threads[0])); i++) {
+    pthread_cancel(game_threads[i]);
+  }
 }
 
 int main (int argc, char *argv[]) {
 
+  // Start socket
   int server_socket = socket(AF_INET, SOCK_STREAM, 0);
-
   if (server_socket == -1) {
     eprintf("Could not create server socket :(\n");
     return 1;
   }
 
+  // Bind socket to port
   addr.sin_family = AF_INET;
 
   addr.sin_port = htons(6060);
@@ -53,13 +52,16 @@ int main (int argc, char *argv[]) {
     return 1;
   }
 
+  // Set port to listen to connections
   if (listen(server_socket, 1) == -1) {
     eprintf("Server could not listen :(\n");
     return 1;
   }
 
+  // Server started
   printf("🚀 Tic tac toe server up and running @ localhost: %d\n", addr.sin_port);
 
+  // Pass responsability to other filel
   match_making(server_socket, MAX_PLAYERS, game_threads, &thread_count);
 
   return 0;

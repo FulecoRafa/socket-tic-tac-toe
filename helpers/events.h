@@ -5,9 +5,7 @@
 
 #include "macros.h"
 
-/*
- * Game events for flow control
- * */
+/* Game events for flow control */
 typedef enum events {
   finding_match = 'F',
   match_found = 'M',

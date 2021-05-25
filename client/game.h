@@ -1,12 +1,10 @@
-//
-// Created by Gabriel Souza on 18/04/21.
-//
-
 #ifndef SOCKET_TIC_TAC_TOE_GAME_H
 #define SOCKET_TIC_TAC_TOE_GAME_H
-#define SIZE 3
+
 #include <stdlib.h>
 #include <stdio.h>
+
+#define SIZE 3
 
 typedef struct move {
   int pos_i;

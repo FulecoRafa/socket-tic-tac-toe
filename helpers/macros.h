@@ -7,7 +7,7 @@
 /*
  * Macros for easier programing
  * */
- // GNU-C implementation for lambda functions
+// GNU-C implementation for lambda functions
 #define lambda(l_ret_type, l_arguments, l_body)        \
   ({                                                   \
    l_ret_type l_anonymous_functions_name l_arguments   \

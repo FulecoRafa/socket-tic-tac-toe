@@ -1,7 +1,3 @@
-//
-// Created by Gabriel Souza on 17/04/21.
-//
-
 #ifndef SOCKET_TIC_TAC_TOE_MATCH_H
 #define SOCKET_TIC_TAC_TOE_MATCH_H
 
@@ -15,7 +11,8 @@
 #include "../helpers/events.h"
 #include <unistd.h>
 
-_Noreturn void match_making (int server_socket, int max_players, pthread_t *game_threads, int *current_threads);
+_Noreturn void match_making(int server_socket, int max_players,
+                            pthread_t *game_threads, int *current_threads);
 
 typedef struct match {
   int players[2];
